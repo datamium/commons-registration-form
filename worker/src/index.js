@@ -228,7 +228,7 @@ async function sendWelcomeEmail(env, fields) {
       <li>The space rules and who to contact while you are there</li>
     </ul>
     <p>We look forward to seeing you in the space.</p>
-    <p>Best regards,<br><strong>Commons Morocco</strong><br><a href="mailto:info@commons.ma" style="color:#9E4D1E">info@commons.ma</a></p>
+    <p>Best regards,<br><strong>Commons Morocco</strong><br><a href="mailto:hiba@commons.work" style="color:#9E4D1E">hiba@commons.work</a></p>
   </div>`;
 
   await resendSend(env, {

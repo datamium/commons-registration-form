@@ -24,7 +24,7 @@ bucket_name = "commons-registration-docs"
 # correct if the form is ever embedded elsewhere.
 ALLOWED_ORIGIN = "https://pawn.checkmate.ma"
 # Who receives the new-registration notification. Comma-separate for multiple.
-NOTIFY_EMAIL = "ali@datamium.com"
+NOTIFY_EMAIL = "hiba@commons.work, kawtar@commons.work"
 # Verified Resend sender. The domain MUST be verified in your Resend account.
 FROM_EMAIL = "PAWN × Commons <registration@checkmate.ma>"
 
