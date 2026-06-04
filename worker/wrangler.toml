@@ -16,7 +16,7 @@ ALLOWED_ORIGIN = "https://datamium.github.io"
 # Who receives the new-registration notification. Comma-separate for multiple.
 NOTIFY_EMAIL = "ali@datamium.com"
 # Verified Resend sender. The domain MUST be verified in your Resend account.
-FROM_EMAIL = "PAWN × Commons <registration@datamium.com>"
+FROM_EMAIL = "PAWN × Commons <registration@checkmate.ma>"
 
 # Secrets are NOT stored here. Set them in the dashboard
 # (Worker → Settings → Variables and Secrets) or via wrangler:
