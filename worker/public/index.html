@@ -85,6 +85,35 @@
     border:1px solid rgba(244,238,227,.28);border-radius:999px;padding:9px 18px;
   }
   .hero .access b{color:var(--ochre);font-weight:700}
+  .hero .badges{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+  .hero .limited{
+    display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;
+    letter-spacing:.02em;color:var(--ochre);
+    border:1px solid var(--ochre);border-radius:999px;padding:9px 16px;
+  }
+  .hero .limited .pulse{
+    width:8px;height:8px;border-radius:50%;background:var(--ochre);
+    box-shadow:0 0 0 0 rgba(192,97,42,.6);animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(192,97,42,.55)}
+    70%{box-shadow:0 0 0 8px rgba(192,97,42,0)}
+    100%{box-shadow:0 0 0 0 rgba(192,97,42,0)}
+  }
+  .steps-label{
+    margin:30px 0 14px;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ochre);font-weight:700;
+  }
+  .steps{list-style:none;display:grid;gap:14px;max-width:54ch}
+  .steps li{display:flex;gap:14px;align-items:flex-start}
+  .steps .step-n{
+    flex:0 0 30px;width:30px;height:30px;border-radius:8px;
+    background:var(--ochre);color:var(--white);
+    font-family:'Fraunces',serif;font-weight:600;font-size:.95rem;
+    display:grid;place-items:center;
+  }
+  .steps li div{font-size:.98rem;color:rgba(244,238,227,.9);line-height:1.45}
+  .steps li div b{display:block;color:var(--bone);font-weight:700;margin-bottom:1px}
   .offer-stack{list-style:none;margin:24px 0 8px;display:grid;gap:12px;max-width:54ch}
   .offer-stack li{position:relative;padding-left:30px;font-size:1rem;color:rgba(244,238,227,.92);line-height:1.5}
   .offer-stack li b{color:var(--bone);font-weight:700}
@@ -273,7 +302,7 @@
 <header class="hero">
   <div class="wrap">
     <span class="eyebrow"><span class="dot"></span>PAWN × Commons · 4 Weekends Sprint</span>
-    <h1>Apply to <em>move.</em></h1>
+    <h1>Register to <em>move.</em></h1>
     <p class="lead">In Casablanca, the bottleneck isn't ambition; it's a place to actually do the work. Cafés close, home distracts, offices shut at 6. This summer, for four weekends, that problem is solved.</p>
     <ul class="offer-stack">
       <li><b>Open 24 hours, not 9-to-6.</b> Work the late nights and early mornings, whenever you focus best. The space never closes on you.</li>
@@ -281,7 +310,17 @@
       <li><b>One flat price: 360 MAD.</b> No membership, no contract, no per-day math.</li>
     </ul>
     <p class="offer-anchor">A day pass in Casablanca runs <b>100 to 250 MAD</b>, and only for business hours. This is <b>8 days, around the clock, for 360 MAD</b>. Roughly 45 dirhams a day.</p>
-    <span class="access">8 days · 24-hour access · Casablanca · <b>360 MAD</b></span>
+    <div class="badges">
+      <span class="access">8 days · 24-hour access · Casablanca · <b>360 MAD</b></span>
+      <span class="limited"><span class="pulse"></span>Limited places</span>
+    </div>
+
+    <p class="steps-label">How it works</p>
+    <ol class="steps">
+      <li><span class="step-n">1</span><div><b>Pay &amp; register</b>Pay the 360 MAD fee, fill the form and upload your documents.</div></li>
+      <li><span class="step-n">2</span><div><b>Get access</b>We verify your payment and ID, then add you to the Face ID system.</div></li>
+      <li><span class="step-n">3</span><div><b>Join next Sunday</b>Walk in from the next Sunday and work around the clock.</div></li>
+    </ol>
   </div>
 </header>
 
