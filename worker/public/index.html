@@ -169,7 +169,7 @@
     background:var(--bone);border:1.5px solid var(--line);border-radius:10px;
     padding:13px 15px;transition:border-color .18s,background .18s,box-shadow .18s;
   }
-  input::placeholder,textarea::placeholder{color:#A39A88}
+  input::placeholder,textarea::placeholder{color:#857C6B}
   input:focus,textarea:focus{
     outline:none;border-color:var(--ochre);background:var(--white);
     box-shadow:0 0 0 4px var(--ochre-soft);
@@ -184,7 +184,7 @@
   }
   .drop:hover{border-color:var(--ochre);background:var(--white)}
   .drop.has-file{border-style:solid;border-color:var(--green);background:#F1F4EE}
-  .drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  .drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:1}
   .drop .icon{font-size:1.3rem;margin-bottom:6px}
   .drop .dtext{font-size:.92rem;color:var(--ink-soft);font-weight:600}
   .drop .formats{font-size:.78rem;color:var(--muted);margin-top:4px}
@@ -204,7 +204,7 @@
     display:flex;align-items:baseline;justify-content:space-between;gap:16px;
     padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid rgba(244,238,227,.18);
   }
-  .fee-row .fee-label{font-size:.82rem;letter-spacing:.04em;color:rgba(244,238,227,.7);line-height:1.4}
+  .fee-row .fee-label{font-size:.82rem;letter-spacing:.04em;color:rgba(244,238,227,.82);line-height:1.4}
   .fee-row .fee-label b{display:block;color:var(--bone);font-weight:600;font-size:.95rem;margin-bottom:2px}
   .fee-row .fee-amt{font-family:'Fraunces',serif;font-weight:600;color:var(--ochre);font-size:2rem;line-height:1;white-space:nowrap}
   .fee-row .fee-amt span{font-size:.9rem;letter-spacing:.04em}
@@ -215,7 +215,7 @@
   .paygrid{display:grid;grid-template-columns:1fr;gap:0}
   .payrow{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid rgba(244,238,227,.12)}
   .payrow:last-child{border-bottom:none}
-  .payrow .k{font-size:.82rem;color:rgba(244,238,227,.6);letter-spacing:.04em}
+  .payrow .k{font-size:.82rem;color:rgba(244,238,227,.74);letter-spacing:.04em}
   .payrow .v{font-size:.92rem;font-weight:600;text-align:right;word-break:break-word}
   .payrow .v.mono{font-family:'Fraunces',serif;letter-spacing:.02em}
   .pay-note{
@@ -289,9 +289,59 @@
   footer .board-mini{display:inline-block;width:60px;height:8px;margin-bottom:14px;
     background-image:repeating-linear-gradient(90deg,var(--ink) 0 10px,transparent 10px 20px);opacity:.5}
 
+  /* ---------- hero availability + CTA ---------- */
+  .hero .availability{
+    margin-top:16px;font-size:.98rem;color:rgba(244,238,227,.92);line-height:1.5;max-width:54ch;
+  }
+  .hero .availability b{color:var(--ochre);font-weight:700}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:24px}
+  .hero a.cta{
+    display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-weight:700;
+    font-size:1rem;color:var(--white);background:var(--ochre);border:none;border-radius:12px;
+    padding:15px 28px;cursor:pointer;text-decoration:none;
+    box-shadow:0 14px 28px -14px rgba(192,97,42,.7);transition:background .18s,transform .12s;
+  }
+  .hero a.cta:hover{background:var(--ochre-deep)}
+  .hero a.cta:active{transform:translateY(1px)}
+  .hero .cta-note{font-size:.86rem;color:rgba(244,238,227,.72)}
+
+  /* ---------- copy-to-clipboard on bank details ---------- */
+  .payrow .v.mono{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:flex-end}
+  .copy-btn{
+    font-family:inherit;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--bone);background:rgba(244,238,227,.12);border:1px solid rgba(244,238,227,.28);
+    border-radius:6px;padding:3px 9px;cursor:pointer;transition:background .15s,color .15s;white-space:nowrap;
+  }
+  .copy-btn:hover{background:rgba(244,238,227,.22)}
+  .copy-btn.copied{color:#BFE3C4;border-color:rgba(191,227,196,.55)}
+
+  /* ---------- trust note ---------- */
+  .trust-note{
+    display:flex;gap:12px;align-items:flex-start;
+    background:#F1F4EE;border:1px solid #C7D6C4;border-radius:12px;padding:14px 16px;margin-bottom:24px;
+    font-size:.88rem;color:var(--ink-soft);line-height:1.55;
+  }
+  .trust-note .ti{flex:0 0 auto;font-size:1.05rem;line-height:1.4}
+  .trust-note b{color:var(--green);font-weight:700}
+
+  /* ---------- per-field error message ---------- */
+  .field-msg{display:none;font-size:.82rem;color:var(--ochre-deep);font-weight:600;margin-top:7px}
+  .field-error > .field-msg{display:block}
+
+  /* ---------- file preview / remove ---------- */
+  .drop .filename .fm{display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap}
+  .drop .filename img.thumb{width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid var(--green)}
+  .drop .filename .thumb-doc{font-size:1.6rem;line-height:1}
+  .drop .filename .fm-name{text-align:left}
+  .drop .filename .sz{display:block;color:var(--muted);font-weight:500;font-size:.78rem;margin-top:1px}
+  .file-remove{
+    position:relative;z-index:3;background:none;border:none;color:var(--ochre-deep);
+    font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;text-decoration:underline;margin-top:10px;
+  }
+
   @media(max-width:560px){
     .payrow{flex-direction:column;gap:2px}
-    .payrow .v{text-align:left}
+    .payrow .v,.payrow .v.mono{text-align:left;justify-content:flex-start}
   }
 </style>
 </head>
@@ -314,12 +364,18 @@
       <span class="access">8 days · 24-hour access · Casablanca · <b>360 MAD</b></span>
       <span class="limited"><span class="pulse"></span>Limited places</span>
     </div>
+    <p class="availability">Registration is open throughout <b>June 2026</b>. Sign up while spots last — once you're set up, you start the very next weekend.</p>
+
+    <div class="cta-row">
+      <a href="#regForm" class="cta">Register now →</a>
+      <span class="cta-note">Takes about 5 minutes · 360 MAD</span>
+    </div>
 
     <p class="steps-label">How it works</p>
     <ol class="steps">
       <li><span class="step-n">1</span><div><b>Pay &amp; register</b>Pay the 360 MAD fee, fill the form and upload your documents.</div></li>
       <li><span class="step-n">2</span><div><b>Get access</b>We verify your payment and ID, then add you to the Face ID system.</div></li>
-      <li><span class="step-n">3</span><div><b>Join next Sunday</b>Walk in from the next Sunday and work around the clock.</div></li>
+      <li><span class="step-n">3</span><div><b>Come the next weekend</b>Once you're set up, walk in the very next weekend and work around the clock.</div></li>
     </ol>
   </div>
 </header>
@@ -334,7 +390,7 @@
         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <h2 class="form-title">Sprint Registration &amp; Onboarding</h2>
-        <p class="intro">Complete the form below and upload your three documents: proof of payment, your ID, and a face photo for access. Your place is confirmed as soon as we receive your payment and documents. Spots are limited by the size of the space and confirmed in the order registrations arrive, so apply early.</p>
+        <p class="intro">Register below and upload three documents — proof of payment, your ID, and a face photo for Face&nbsp;ID access. <strong>Registration is open through June 2026.</strong> Places are limited and confirmed in the order they arrive, so register early; once you're set up, you start the very next weekend.</p>
 
         <div class="divider"></div>
 
@@ -342,7 +398,7 @@
         <section class="section">
           <div class="section-head">
             <span class="section-num">1</span>
-            <div class="section-title"><small>Section One</small>Personal Information</div>
+            <h3 class="section-title"><small>Section One</small>Personal Information</h3>
           </div>
 
           <div class="field" data-required>
@@ -367,7 +423,7 @@
         <section class="section">
           <div class="section-head">
             <span class="section-num">2</span>
-            <div class="section-title"><small>Section Two</small>Project Information</div>
+            <h3 class="section-title"><small>Section Two</small>Project Information</h3>
           </div>
 
           <div class="field">
@@ -388,7 +444,7 @@
         <section class="section">
           <div class="section-head">
             <span class="section-num">3</span>
-            <div class="section-title"><small>Section Three</small>Payment Instructions</div>
+            <h3 class="section-title"><small>Section Three</small>Payment Instructions</h3>
           </div>
 
           <div class="payment">
@@ -401,8 +457,8 @@
               <div class="payrow"><span class="k">Bank Name</span><span class="v">BMCE Bank</span></div>
               <div class="payrow"><span class="k">Bank Address</span><span class="v">140 Avenue Hassan II, Casablanca, Agence Rabat Hassane</span></div>
               <div class="payrow"><span class="k">Account Name</span><span class="v">COMMONS MOROCCO</span></div>
-              <div class="payrow"><span class="k">Account Number</span><span class="v mono">011810000009210000906831</span></div>
-              <div class="payrow"><span class="k">SWIFT Code</span><span class="v mono">BMCEMAMC</span></div>
+              <div class="payrow"><span class="k">Account Number</span><span class="v mono">011810000009210000906831<button type="button" class="copy-btn" data-copy="011810000009210000906831" aria-label="Copy account number">Copy</button></span></div>
+              <div class="payrow"><span class="k">SWIFT Code</span><span class="v mono">BMCEMAMC<button type="button" class="copy-btn" data-copy="BMCEMAMC" aria-label="Copy SWIFT code">Copy</button></span></div>
               <div class="payrow"><span class="k">Currency</span><span class="v">MAD (Moroccan Dirham)</span></div>
             </div>
             <div class="pay-note">Please complete the bank transfer <strong>before</strong> submitting this form and upload the payment receipt in the Document Uploads section below.</div>
@@ -416,7 +472,12 @@
         <section class="section">
           <div class="section-head">
             <span class="section-num">4</span>
-            <div class="section-title"><small>Section Four</small>Document Uploads</div>
+            <h3 class="section-title"><small>Section Four</small>Document Uploads</h3>
+          </div>
+
+          <div class="trust-note">
+            <span class="ti" aria-hidden="true">🔒</span>
+            <div><b>Your documents stay private.</b> Your ID and photo are used only to verify you and register Face&nbsp;ID access. They're stored securely, seen only by Commons staff, and removed after the sprint — never shared or used for anything else.</div>
           </div>
 
           <div class="field" data-required>
@@ -427,7 +488,7 @@
               <div class="prompt">
                 <div class="icon">📎</div>
                 <div class="dtext">Click to upload or drag a file here</div>
-                <div class="formats">Accepted: PDF, JPG, JPEG, PNG</div>
+                <div class="formats">Accepted: PDF, JPG, JPEG, PNG · max 8&nbsp;MB</div>
               </div>
               <div class="filename"></div>
             </div>
@@ -441,7 +502,7 @@
               <div class="prompt">
                 <div class="icon">🪪</div>
                 <div class="dtext">Click to upload or drag a file here</div>
-                <div class="formats">Accepted: PDF, JPG, JPEG, PNG</div>
+                <div class="formats">Accepted: PDF, JPG, JPEG, PNG · max 8&nbsp;MB</div>
               </div>
               <div class="filename"></div>
             </div>
@@ -455,7 +516,7 @@
               <div class="prompt">
                 <div class="icon">📷</div>
                 <div class="dtext">Click to upload or drag a file here</div>
-                <div class="formats">Accepted: JPG, JPEG, PNG</div>
+                <div class="formats">Accepted: JPG, JPEG, PNG · max 8&nbsp;MB</div>
               </div>
               <div class="filename"></div>
             </div>
@@ -468,7 +529,7 @@
         <section class="section">
           <div class="section-head">
             <span class="section-num">5</span>
-            <div class="section-title"><small>Section Five</small>Consent</div>
+            <h3 class="section-title"><small>Section Five</small>Consent</h3>
           </div>
 
           <div class="consent" id="consentBox">
@@ -546,25 +607,79 @@
   const submitBtn = form.querySelector('.submit');
   const DEFAULT_ERR = 'Please complete all required fields and confirm your consent before submitting.';
 
-  // --- file upload: show filename, validate format, mark state ---
+  // ---------- validation helpers ----------
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const MAX_MB = 8;
+
+  function control(field){ return field.querySelector('input, textarea'); }
+  function ensureMsg(field){
+    let m = field.querySelector('.field-msg');
+    if(!m){ m = document.createElement('p'); m.className = 'field-msg'; field.appendChild(m); }
+    return m;
+  }
+  function setField(field, ok, msg){
+    field.classList.toggle('field-error', !ok);
+    const input = control(field);
+    if(input) input.setAttribute('aria-invalid', ok ? 'false' : 'true');
+    ensureMsg(field).textContent = ok ? '' : (msg || '');
+  }
+  function validateField(field){
+    const input = control(field);
+    if(input.type === 'file'){
+      return { ok: input.files.length > 0, msg: 'Please upload this document.' };
+    }
+    if(input.type === 'email'){
+      const v = input.value.trim();
+      return { ok: EMAIL_RE.test(v), msg: v ? 'Please enter a valid email address.' : 'Email address is required.' };
+    }
+    if(input.id === 'phone'){
+      const v = input.value.trim();
+      return { ok: v.replace(/\D/g,'').length >= 8, msg: v ? 'Please enter a valid mobile number.' : 'Mobile number is required.' };
+    }
+    return { ok: input.value.trim().length > 0, msg: 'This field is required.' };
+  }
+  function fmtSize(n){ return n < 1024*1024 ? Math.round(n/1024) + ' KB' : (n/1024/1024).toFixed(1) + ' MB'; }
+
+  // ---------- file uploads: preview, size check, remove, validate ----------
   document.querySelectorAll('.drop').forEach(function(drop){
     const input = drop.querySelector('input[type=file]');
-    const nameEl = drop.querySelector('.filename');
+    const box = drop.querySelector('.filename');
+    const field = drop.closest('.field');
     const accepted = (drop.dataset.accept || '').split(',').map(s=>s.trim().toLowerCase());
+
+    function reset(){ drop.classList.remove('has-file'); box.innerHTML=''; input.value=''; }
 
     function handle(){
       const f = input.files[0];
-      if(!f){ drop.classList.remove('has-file'); nameEl.textContent=''; return; }
+      if(!f){ reset(); return; }
       const ext = '.' + f.name.split('.').pop().toLowerCase();
       if(accepted.indexOf(ext) === -1){
-        drop.classList.remove('has-file');
-        nameEl.textContent='';
-        input.value='';
-        alert('Unsupported file type. Accepted formats: ' + accepted.join(', '));
+        reset();
+        if(field) setField(field, false, 'Unsupported file type. Accepted: ' + accepted.join(', ') + '.');
+        return;
+      }
+      if(f.size > MAX_MB*1024*1024){
+        reset();
+        if(field) setField(field, false, 'That file is ' + fmtSize(f.size) + ' — please upload one under ' + MAX_MB + ' MB.');
         return;
       }
       drop.classList.add('has-file');
-      nameEl.textContent = '✓ ' + f.name;
+      const isImg = /^image\//.test(f.type);
+      const thumb = isImg ? '<img class="thumb" alt="Preview of the file you selected">' : '<span class="thumb-doc" aria-hidden="true">📄</span>';
+      box.innerHTML =
+        '<div class="fm">' + thumb +
+        '<span class="fm-name">✓ ' + f.name + '<span class="sz">' + fmtSize(f.size) + '</span></span></div>' +
+        '<button type="button" class="file-remove">Remove file</button>';
+      if(isImg){
+        const url = URL.createObjectURL(f);
+        const img = box.querySelector('img.thumb');
+        img.src = url;
+        img.onload = ()=> URL.revokeObjectURL(url);
+      }
+      box.querySelector('.file-remove').addEventListener('click', function(e){
+        e.preventDefault(); e.stopPropagation(); reset();
+      });
+      if(field) setField(field, true);
     }
     input.addEventListener('change', handle);
     // drag visual feedback
@@ -573,25 +688,43 @@
     drop.addEventListener('drop', ()=>{ drop.style.borderColor=''; });
   });
 
-  // --- consent visual state ---
-  const consent = document.getElementById('consent');
-  consent.addEventListener('change', ()=> consentBox.classList.toggle('checked', consent.checked));
+  // ---------- inline validation on blur for text fields ----------
+  document.querySelectorAll('.field[data-required]').forEach(function(field){
+    const input = control(field);
+    if(input.type === 'file') return;
+    input.addEventListener('blur', ()=>{ const r = validateField(field); setField(field, r.ok, r.msg); });
+    input.addEventListener('input', ()=>{ if(field.classList.contains('field-error')){ const r = validateField(field); if(r.ok) setField(field, true); } });
+  });
 
-  // --- validation + submit ---
+  // ---------- consent visual state ----------
+  const consent = document.getElementById('consent');
+  consent.addEventListener('change', ()=>{
+    consentBox.classList.toggle('checked', consent.checked);
+    if(consent.checked) consentBox.style.borderColor = '';
+  });
+
+  // ---------- copy-to-clipboard for bank details ----------
+  document.querySelectorAll('.copy-btn').forEach(function(btn){
+    btn.addEventListener('click', async function(){
+      const val = btn.getAttribute('data-copy') || '';
+      try{ await navigator.clipboard.writeText(val); }
+      catch(_){ const t=document.createElement('textarea'); t.value=val; document.body.appendChild(t); t.select(); try{document.execCommand('copy');}catch(e){} t.remove(); }
+      const orig = btn.textContent;
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(()=>{ btn.textContent = orig; btn.classList.remove('copied'); }, 1600);
+    });
+  });
+
+  // ---------- validation + submit ----------
   form.addEventListener('submit', async function(e){
     e.preventDefault();
     let firstBad = null;
 
-    // clear prior error states
-    document.querySelectorAll('.field-error').forEach(el=>el.classList.remove('field-error'));
-
     document.querySelectorAll('.field[data-required]').forEach(function(field){
-      const input = field.querySelector('input, textarea');
-      let ok = true;
-      if(input.type === 'file'){ ok = input.files.length > 0; }
-      else if(input.type === 'email'){ ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim()); }
-      else { ok = input.value.trim().length > 0; }
-      if(!ok){ field.classList.add('field-error'); if(!firstBad) firstBad = field; }
+      const r = validateField(field);
+      setField(field, r.ok, r.msg);
+      if(!r.ok && !firstBad) firstBad = field;
     });
 
     if(!consent.checked){
@@ -630,9 +763,11 @@
       const name = document.getElementById('fullName').value.trim() || 'Applicant';
       document.getElementById('epName').textContent = name;
       form.style.display = 'none';
-      // Hide the hero header so the confirmation stands on its own
+      // Hide the hero header + top strip so the confirmation stands on its own
       const hero = document.querySelector('header.hero');
       if(hero) hero.style.display = 'none';
+      const strip = document.querySelector('.board-strip');
+      if(strip) strip.style.display = 'none';
       confirmScreen.classList.add('show');
       window.scrollTo({top:0, behavior:'smooth'});
     }catch(err){
