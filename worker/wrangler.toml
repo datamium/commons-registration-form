@@ -1,6 +1,8 @@
 name = "commons-registration-form"
 main = "src/index.js"
 compatibility_date = "2024-11-01"
+# Don't delete dashboard-set variables/secrets on deploy.
+keep_vars = true
 
 # R2 bucket for storing uploaded documents + JSON submission records.
 # Create this bucket in the Cloudflare dashboard (R2) with the same name,
