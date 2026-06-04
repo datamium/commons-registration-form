@@ -591,6 +591,9 @@
       const name = document.getElementById('fullName').value.trim() || 'Applicant';
       document.getElementById('epName').textContent = name;
       form.style.display = 'none';
+      // Hide the hero header so the confirmation stands on its own
+      const hero = document.querySelector('header.hero');
+      if(hero) hero.style.display = 'none';
       confirmScreen.classList.add('show');
       window.scrollTo({top:0, behavior:'smooth'});
     }catch(err){
