@@ -43,6 +43,11 @@ export default {
 
     const url = new URL(request.url);
 
+    // --- send browsers hitting the root to the live form ---
+    if (request.method === 'GET' && url.pathname === '/') {
+      return Response.redirect(env.FORM_URL || 'https://datamium.github.io/commons-registration-form/', 302);
+    }
+
     // --- authenticated file download (links in the notification email) ---
     if (request.method === 'GET' && url.pathname.startsWith('/file/')) {
       const token = url.searchParams.get('token');

@@ -19,6 +19,8 @@ ALLOWED_ORIGIN = "https://datamium.github.io"
 NOTIFY_EMAIL = "ali@datamium.com"
 # Verified Resend sender. The domain MUST be verified in your Resend account.
 FROM_EMAIL = "PAWN × Commons <registration@checkmate.ma>"
+# Where to send browsers that hit the Worker root (the live form).
+FORM_URL = "https://datamium.github.io/commons-registration-form/"
 
 # Secrets are NOT stored here. Set them in the dashboard
 # (Worker → Settings → Variables and Secrets) or via wrangler:
