@@ -1,0 +1,24 @@
+name = "commons-registration"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# R2 bucket for storing uploaded documents + JSON submission records.
+# Create this bucket in the Cloudflare dashboard (R2) with the same name,
+# or run:  npx wrangler r2 bucket create commons-registration-docs
+[[r2_buckets]]
+binding = "DOCS"
+bucket_name = "commons-registration-docs"
+
+# Non-secret configuration. Safe to commit.
+[vars]
+# The site origin allowed to POST to this Worker (CORS). Update if you move hosts.
+ALLOWED_ORIGIN = "https://datamium.github.io"
+# Who receives the new-registration notification. Comma-separate for multiple.
+NOTIFY_EMAIL = "ali@datamium.com"
+# Verified Resend sender. The domain MUST be verified in your Resend account.
+FROM_EMAIL = "PAWN × Commons <registration@datamium.com>"
+
+# Secrets are NOT stored here. Set them in the dashboard
+# (Worker → Settings → Variables and Secrets) or via wrangler:
+#   npx wrangler secret put RESEND_API_KEY
+#   npx wrangler secret put ADMIN_TOKEN

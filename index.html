@@ -291,10 +291,6 @@
 
       <!-- ===== FORM ===== -->
       <form id="regForm" novalidate>
-        <!-- Web3Forms configuration -->
-        <input type="hidden" name="access_key" value="856ddd9e-5fbf-4a1a-abdf-b01193e2ee75">
-        <input type="hidden" name="subject" value="New Sprint Registration — PAWN × Commons">
-        <input type="hidden" name="from_name" value="PAWN × Commons Registration">
         <!-- Honeypot spam filter (must stay empty) -->
         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 
@@ -497,6 +493,13 @@
 
 <script>
 (function(){
+  /* ===========================================================
+     BACKEND ENDPOINT
+     Paste your deployed Cloudflare Worker URL here (with /submit).
+     e.g. 'https://commons-registration.YOUR-SUBDOMAIN.workers.dev/submit'
+     =========================================================== */
+  const ENDPOINT = 'https://commons-registration.YOUR-SUBDOMAIN.workers.dev/submit';
+
   const form = document.getElementById('regForm');
   const errNote = document.getElementById('errNote');
   const confirmScreen = document.getElementById('confirmScreen');
@@ -569,13 +572,10 @@
     errNote.classList.remove('show');
 
     /* -----------------------------------------------------------
-       Submit to Web3Forms (https://web3forms.com).
-       Web3Forms receives all fields + the three file uploads,
-       emails them to the address tied to the access_key above,
-       and (if enabled in your Web3Forms dashboard) sends the
-       applicant an autoresponder welcome email.
-       To change the destination, swap the access_key value in
-       the hidden input near the top of the form.
+       Submit to the Cloudflare Worker (see ENDPOINT above).
+       The Worker stores the three uploads + a JSON record in R2,
+       emails a notification (documents attached) to the team, and
+       sends the applicant the welcome email previewed below.
        ----------------------------------------------------------- */
     const origLabel = submitBtn.textContent;
     submitBtn.disabled = true;
@@ -583,9 +583,9 @@
 
     try{
       const data = new FormData(form);
-      const res = await fetch('https://api.web3forms.com/submit', { method:'POST', body:data });
-      const json = await res.json();
-      if(!json.success){ throw new Error(json.message || 'Submission failed. Please try again.'); }
+      const res = await fetch(ENDPOINT, { method:'POST', body:data });
+      const json = await res.json().catch(()=>({success:false,message:'Unexpected server response.'}));
+      if(!res.ok || !json.success){ throw new Error(json.message || ('Submission failed (HTTP '+res.status+').')); }
 
       // Show confirmation + personalize email preview
       const name = document.getElementById('fullName').value.trim() || 'Applicant';

@@ -1,41 +1,50 @@
 # Commons Registration Form
 
-Registration & onboarding form for the **PAWN × Commons — 4 Weekends Sprint** at Commons Zerktouni, Casablanca.
+Registration & onboarding form for the **PAWN × Commons — 4 Weekends Sprint** at Commons
+Zerktouni, Casablanca.
 
-A single static page (`index.html`) — no build step, no dependencies. Form submissions are handled by [Web3Forms](https://web3forms.com).
+- **`index.html`** — the static form (hosted on GitHub Pages). No build step.
+- **`worker/`** — a Cloudflare Worker that receives submissions, stores the uploaded
+  documents in R2, and emails notifications via Resend.
 
-## What it does
+## Architecture
 
-- Collects applicant details (name, email, phone) and a project description.
-- Shows bank-transfer payment instructions.
-- Accepts three file uploads: proof of payment, government ID, and a face photo for access control.
-- Validates required fields client-side, then POSTs everything (including the files) to Web3Forms, which emails the submission to the address tied to the access key.
-- Shows a confirmation screen with the next steps and a welcome-email preview.
+```
+Browser (GitHub Pages)  ──POST multipart──►  Cloudflare Worker  ──►  R2 (file storage)
+   index.html                                   worker/              │
+                                                                     └►  Resend (emails)
+                                                                          • team notification (docs attached)
+                                                                          • applicant welcome email
+```
 
-## Running locally
+The form is hosted as a static page; uploads need a server, so the Worker handles storage
+and email. They live in one repo but deploy to two places.
 
-It's a plain HTML file — just open it in a browser, or serve the folder:
+## What the form collects
+
+- Applicant details (name, email, phone) and a project description.
+- Bank-transfer payment instructions (display only).
+- Three file uploads: proof of payment, government ID, and a face photo for access control.
+
+## Setup
+
+The backend needs deploying once. Full instructions are in **[`worker/README.md`](worker/README.md)** —
+create Cloudflare + Resend accounts, verify a sending domain, create the R2 bucket, deploy the
+Worker, set two secrets, then paste the Worker URL into the `ENDPOINT` constant in `index.html`.
+
+## Running the form locally
 
 ```bash
-python3 -m http.server 8000
-# then visit http://localhost:8000
+python3 -m http.server 8000   # then visit http://localhost:8000
 ```
 
-## Configuration
+(Submissions only succeed once `ENDPOINT` points at a deployed Worker and that Worker's
+`ALLOWED_ORIGIN` permits your origin.)
 
-The Web3Forms **access key** lives in a hidden input near the top of the `<form>` in `index.html`:
+## Notes
 
-```html
-<input type="hidden" name="access_key" value="856ddd9e-5fbf-4a1a-abdf-b01193e2ee75">
-```
-
-To send submissions to a different inbox, create a new key at [web3forms.com](https://web3forms.com) and replace that value.
-
-### Welcome / autoresponder email
-
-The applicant-facing welcome email is configured in the **Web3Forms dashboard** (Autoresponder / Email Template), not in this repo. Enable it there to have applicants automatically receive the confirmation email previewed on the success screen.
-
-### Notes & limits
-
-- Web3Forms free plan has a per-file / total upload size limit. Large ID scans or photos may be rejected — check your Web3Forms plan if uploads fail.
-- The bank account details are hard-coded in `index.html`. Keep this repository **private**.
+- The bank account details are hard-coded in `index.html` and this repo is public — that's a
+  deliberate trade-off to allow GitHub Pages hosting on the free plan.
+- Uploaded documents (IDs, face photos) are stored in your own R2 bucket — you own the data.
+  The notification emails and the `/file/` download links carry the admin token, so treat them
+  as sensitive.
