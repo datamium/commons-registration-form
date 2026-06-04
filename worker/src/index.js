@@ -43,6 +43,46 @@ export default {
 
     const url = new URL(request.url);
 
+    // --- diagnostics: is the email config present? (non-secret values only) ---
+    if (request.method === 'GET' && url.pathname === '/health') {
+      return json(
+        {
+          ok: true,
+          hasResendKey: !!env.RESEND_API_KEY,
+          hasAdminToken: !!env.ADMIN_TOKEN,
+          from: env.FROM_EMAIL || null,
+          notify: env.NOTIFY_EMAIL || null,
+          allowedOrigin: env.ALLOWED_ORIGIN || null,
+        },
+        200,
+        cors
+      );
+    }
+
+    // --- diagnostics: actually send a test email and return Resend's response ---
+    if (request.method === 'GET' && url.pathname === '/selftest') {
+      if (!env.ADMIN_TOKEN || url.searchParams.get('token') !== env.ADMIN_TOKEN) {
+        return json({ success: false, message: 'Unauthorized — set ADMIN_TOKEN secret and pass ?token=' }, 401, cors);
+      }
+      if (!env.RESEND_API_KEY) return json({ success: false, message: 'RESEND_API_KEY secret is not set.' }, 200, cors);
+      if (!env.FROM_EMAIL || !env.NOTIFY_EMAIL) return json({ success: false, message: 'FROM_EMAIL or NOTIFY_EMAIL is missing.' }, 200, cors);
+      try {
+        const res = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from: env.FROM_EMAIL,
+            to: env.NOTIFY_EMAIL.split(',').map((s) => s.trim()).filter(Boolean),
+            subject: 'Resend self-test — PAWN × Commons',
+            html: '<p>If you received this, Resend is configured correctly. ✅</p>',
+          }),
+        });
+        return json({ success: res.ok, status: res.status, resend: await res.text() }, 200, cors);
+      } catch (e) {
+        return json({ success: false, message: e.message }, 200, cors);
+      }
+    }
+
     // --- authenticated file download (links in the notification email) ---
     if (request.method === 'GET' && url.pathname.startsWith('/file/')) {
       const token = url.searchParams.get('token');
