@@ -43,10 +43,8 @@ export default {
 
     const url = new URL(request.url);
 
-    // --- send browsers hitting the root to the live form ---
-    if (request.method === 'GET' && url.pathname === '/') {
-      return Response.redirect(env.FORM_URL || 'https://datamium.github.io/commons-registration-form/', 302);
-    }
+    // Note: GET / (and other static paths) are served by the [assets] binding
+    // before this script runs; the Worker only sees /submit and /file/... .
 
     // --- authenticated file download (links in the notification email) ---
     if (request.method === 'GET' && url.pathname.startsWith('/file/')) {

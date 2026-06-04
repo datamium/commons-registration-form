@@ -4,6 +4,12 @@ compatibility_date = "2024-11-01"
 # Don't delete dashboard-set variables/secrets on deploy.
 keep_vars = true
 
+# Serve the static form (worker/public/index.html) from this Worker.
+# Assets are matched first; anything that isn't an asset (e.g. /submit,
+# /file/...) falls through to the Worker script in src/index.js.
+[assets]
+directory = "./public"
+
 # R2 bucket for storing uploaded documents + JSON submission records.
 # Create this bucket in the Cloudflare dashboard (R2) with the same name,
 # or run:  npx wrangler r2 bucket create commons-registration-docs
@@ -13,14 +19,14 @@ bucket_name = "commons-registration-docs"
 
 # Non-secret configuration. Safe to commit.
 [vars]
-# The site origin allowed to POST to this Worker (CORS). Update if you move hosts.
-ALLOWED_ORIGIN = "https://datamium.github.io"
+# The site origin allowed to POST to this Worker (CORS). The form is now served
+# same-origin from this Worker, so CORS isn't strictly needed, but this keeps it
+# correct if the form is ever embedded elsewhere.
+ALLOWED_ORIGIN = "https://pawn.checkmate.ma"
 # Who receives the new-registration notification. Comma-separate for multiple.
 NOTIFY_EMAIL = "ali@datamium.com"
 # Verified Resend sender. The domain MUST be verified in your Resend account.
 FROM_EMAIL = "PAWN × Commons <registration@checkmate.ma>"
-# Where to send browsers that hit the Worker root (the live form).
-FORM_URL = "https://datamium.github.io/commons-registration-form/"
 
 # Secrets are NOT stored here. Set them in the dashboard
 # (Worker → Settings → Variables and Secrets) or via wrangler:

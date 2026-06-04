@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Program Registration & Onboarding — PAWN × Commons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bone:#F4EEE3;
+    --bone-2:#EBE3D4;
+    --ink:#1C1A16;
+    --ink-soft:#3A362E;
+    --muted:#6B6457;
+    --line:#D8CFBD;
+    --ochre:#C0612A;
+    --ochre-deep:#9E4D1E;
+    --ochre-soft:#F3E0CF;
+    --green:#3E5C44;
+    --white:#FCFAF5;
+    --shadow:rgba(28,26,22,.10);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Hanken Grotesk',sans-serif;
+    background:var(--bone);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(192,97,42,.06), transparent 38%),
+      radial-gradient(circle at 88% 0%, rgba(62,92,68,.05), transparent 32%);
+    min-height:100vh;
+  }
+
+  /* ---------- chessboard motif ---------- */
+  .board-strip{
+    height:10px;width:100%;
+    background-image:repeating-linear-gradient(90deg,var(--ink) 0 20px,transparent 20px 40px);
+    opacity:.85;
+  }
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+
+  /* ---------- header / hero ---------- */
+  header.hero{
+    background:var(--ink);
+    color:var(--bone);
+    padding:54px 0 60px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;
+    background-image:repeating-conic-gradient(var(--bone) 0% 25%, transparent 0% 50%);
+    background-size:46px 46px;opacity:.05;transform:rotate(8deg);pointer-events:none;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ochre);font-weight:700;margin-bottom:26px;
+  }
+  .eyebrow .dot{width:7px;height:7px;background:var(--ochre);border-radius:50%}
+  .hero h1{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:clamp(2.7rem,8vw,4.4rem);line-height:.98;
+    letter-spacing:-.02em;margin-bottom:20px;
+  }
+  .hero h1 em{font-style:italic;color:var(--ochre)}
+  .hero p.lead{
+    font-size:1.08rem;color:rgba(244,238,227,.82);max-width:48ch;margin-bottom:14px;
+  }
+  .offer-anchor{
+    margin:20px 0 4px;font-size:1.02rem;color:rgba(244,238,227,.9);line-height:1.55;
+    border-left:3px solid var(--ochre);padding:6px 0 6px 16px;max-width:54ch;
+  }
+  .offer-anchor b{color:var(--ochre);font-weight:700}
+  .hero .access{
+    display:inline-block;margin-top:10px;font-size:.9rem;font-weight:600;
+    letter-spacing:.02em;color:var(--bone);
+    border:1px solid rgba(244,238,227,.28);border-radius:999px;padding:9px 18px;
+  }
+  .hero .access b{color:var(--ochre);font-weight:700}
+  .offer-stack{list-style:none;margin:24px 0 8px;display:grid;gap:12px;max-width:54ch}
+  .offer-stack li{position:relative;padding-left:30px;font-size:1rem;color:rgba(244,238,227,.92);line-height:1.5}
+  .offer-stack li b{color:var(--bone);font-weight:700}
+  .offer-stack li::before{
+    content:"✓";position:absolute;left:0;top:1px;color:var(--ochre);font-weight:700;
+    width:19px;height:19px;border:1.5px solid var(--ochre);border-radius:5px;
+    display:grid;place-items:center;font-size:.7rem;
+  }
+
+  /* ---------- form panel ---------- */
+  main{padding:46px 0 90px}
+  .panel{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:0 24px 60px -36px var(--shadow);
+    padding:clamp(26px,5vw,52px);
+  }
+  .form-title{
+    font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem,4vw,2.25rem);
+    letter-spacing:-.01em;line-height:1.1;margin-bottom:14px;
+  }
+  .intro{color:var(--ink-soft);font-size:1rem;margin-bottom:8px}
+  .divider{height:1px;background:var(--line);margin:34px 0}
+
+  /* ---------- sections ---------- */
+  .section{margin-top:6px}
+  .section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+  .section-num{
+    font-family:'Fraunces',serif;font-weight:600;font-size:.95rem;
+    color:var(--white);background:var(--ink);
+    width:30px;height:30px;flex:0 0 30px;border-radius:7px;
+    display:grid;place-items:center;letter-spacing:0;
+  }
+  .section-title{
+    font-family:'Fraunces',serif;font-weight:600;font-size:1.25rem;letter-spacing:-.01em;
+  }
+  .section-title small{
+    display:block;font-family:'Hanken Grotesk',sans-serif;font-weight:500;
+    font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:3px;
+  }
+
+  /* ---------- fields ---------- */
+  .field{margin-bottom:22px}
+  label.flabel{display:block;font-weight:600;font-size:.95rem;margin-bottom:7px}
+  label.flabel .req{color:var(--ochre);margin-left:3px}
+  label.flabel .opt{color:var(--muted);font-weight:500;font-size:.8rem;margin-left:6px}
+  .help{font-size:.86rem;color:var(--muted);margin:-2px 0 10px;line-height:1.5}
+  .help strong{color:var(--ink-soft);font-weight:600}
+
+  input[type=text],input[type=email],input[type=tel],textarea{
+    width:100%;font-family:inherit;font-size:1rem;color:var(--ink);
+    background:var(--bone);border:1.5px solid var(--line);border-radius:10px;
+    padding:13px 15px;transition:border-color .18s,background .18s,box-shadow .18s;
+  }
+  input::placeholder,textarea::placeholder{color:#A39A88}
+  input:focus,textarea:focus{
+    outline:none;border-color:var(--ochre);background:var(--white);
+    box-shadow:0 0 0 4px var(--ochre-soft);
+  }
+  textarea{min-height:140px;resize:vertical}
+
+  /* ---------- file uploads ---------- */
+  .drop{
+    position:relative;border:1.5px dashed var(--line);border-radius:12px;
+    background:var(--bone);padding:22px;text-align:center;cursor:pointer;
+    transition:border-color .18s,background .18s;
+  }
+  .drop:hover{border-color:var(--ochre);background:var(--white)}
+  .drop.has-file{border-style:solid;border-color:var(--green);background:#F1F4EE}
+  .drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  .drop .icon{font-size:1.3rem;margin-bottom:6px}
+  .drop .dtext{font-size:.92rem;color:var(--ink-soft);font-weight:600}
+  .drop .formats{font-size:.78rem;color:var(--muted);margin-top:4px}
+  .drop .filename{display:none;font-size:.88rem;color:var(--green);font-weight:600;margin-top:8px;word-break:break-all}
+  .drop.has-file .filename{display:block}
+  .drop.has-file .prompt{display:none}
+
+  /* ---------- payment box ---------- */
+  .payment{
+    background:var(--ink);color:var(--bone);border-radius:14px;
+    padding:28px 28px 24px;position:relative;overflow:hidden;
+  }
+  .payment::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--ochre);
+  }
+  .fee-row{
+    display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+    padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid rgba(244,238,227,.18);
+  }
+  .fee-row .fee-label{font-size:.82rem;letter-spacing:.04em;color:rgba(244,238,227,.7);line-height:1.4}
+  .fee-row .fee-label b{display:block;color:var(--bone);font-weight:600;font-size:.95rem;margin-bottom:2px}
+  .fee-row .fee-amt{font-family:'Fraunces',serif;font-weight:600;color:var(--ochre);font-size:2rem;line-height:1;white-space:nowrap}
+  .fee-row .fee-amt span{font-size:.9rem;letter-spacing:.04em}
+  .payment .ptag{
+    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ochre);
+    font-weight:700;margin-bottom:16px;
+  }
+  .paygrid{display:grid;grid-template-columns:1fr;gap:0}
+  .payrow{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid rgba(244,238,227,.12)}
+  .payrow:last-child{border-bottom:none}
+  .payrow .k{font-size:.82rem;color:rgba(244,238,227,.6);letter-spacing:.04em}
+  .payrow .v{font-size:.92rem;font-weight:600;text-align:right;word-break:break-word}
+  .payrow .v.mono{font-family:'Fraunces',serif;letter-spacing:.02em}
+  .pay-note{
+    margin-top:18px;font-size:.86rem;color:rgba(244,238,227,.78);line-height:1.55;
+    background:rgba(244,238,227,.06);border-radius:9px;padding:12px 14px;
+  }
+
+  /* ---------- consent ---------- */
+  .consent{
+    display:flex;gap:14px;align-items:flex-start;
+    background:var(--bone);border:1.5px solid var(--line);border-radius:12px;padding:18px;
+    transition:border-color .18s;
+  }
+  .consent.checked{border-color:var(--green);background:#F1F4EE}
+  .consent input{margin-top:3px;width:20px;height:20px;flex:0 0 20px;accent-color:var(--ochre);cursor:pointer}
+  .consent label{font-size:.9rem;color:var(--ink-soft);line-height:1.55;cursor:pointer}
+
+  /* ---------- submit ---------- */
+  .submit{
+    margin-top:30px;width:100%;font-family:inherit;font-weight:700;font-size:1.02rem;
+    letter-spacing:.02em;color:var(--white);background:var(--ochre);border:none;
+    border-radius:12px;padding:17px;cursor:pointer;
+    transition:background .18s,transform .12s,box-shadow .18s;
+    box-shadow:0 14px 28px -14px rgba(192,97,42,.7);
+  }
+  .submit:hover{background:var(--ochre-deep);box-shadow:0 18px 34px -14px rgba(192,97,42,.8)}
+  .submit:active{transform:translateY(1px)}
+  .submit:disabled{opacity:.7;cursor:not-allowed;transform:none}
+  .errnote{
+    display:none;margin-top:14px;font-size:.88rem;color:var(--ochre-deep);font-weight:600;
+    background:var(--ochre-soft);border-radius:9px;padding:11px 14px;
+  }
+  .errnote.show{display:block}
+  .field-error input,.field-error textarea{border-color:var(--ochre-deep)!important;box-shadow:0 0 0 3px rgba(158,77,30,.12)}
+  .field-error .drop{border-color:var(--ochre-deep)!important}
+
+  /* ---------- confirmation ---------- */
+  .confirm{display:none;text-align:center;padding:18px 6px 8px}
+  .confirm.show{display:block;animation:rise .5s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .confirm .check{
+    width:64px;height:64px;border-radius:50%;background:var(--green);color:var(--white);
+    display:grid;place-items:center;margin:0 auto 22px;font-size:1.8rem;
+  }
+  .confirm h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.7rem;margin-bottom:14px;letter-spacing:-.01em}
+  .confirm p.msg{color:var(--ink-soft);max-width:46ch;margin:0 auto 30px}
+
+  .next-steps{list-style:none;counter-reset:step;text-align:left;max-width:30rem;margin:4px auto 6px;display:grid;gap:16px}
+  .next-steps li{position:relative;padding-left:48px;font-size:.95rem;color:var(--ink-soft);line-height:1.5}
+  .next-steps li b{color:var(--ink);font-weight:700;display:block;margin-bottom:1px}
+  .next-steps li::before{
+    counter-increment:step;content:counter(step);position:absolute;left:0;top:0;
+    width:30px;height:30px;background:var(--ink);color:var(--white);border-radius:8px;
+    display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:600;font-size:.95rem;
+  }
+  .confirm .sub-h{font-weight:700;color:var(--ink);text-align:center;margin:26px 0 16px;font-size:1.02rem}
+  .email-preview{
+    text-align:left;background:var(--bone);border:1px solid var(--line);border-radius:12px;
+    margin-top:10px;overflow:hidden;
+  }
+  .ep-bar{background:var(--bone-2);padding:12px 18px;border-bottom:1px solid var(--line);font-size:.78rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+  .ep-body{padding:22px 24px;font-size:.92rem;color:var(--ink-soft);line-height:1.6}
+  .ep-body .subj{font-weight:700;color:var(--ink);margin-bottom:14px;font-size:1rem}
+  .ep-body ul{margin:10px 0 10px 4px;list-style:none}
+  .ep-body ul li{padding-left:18px;position:relative;margin-bottom:5px}
+  .ep-body ul li::before{content:"›";position:absolute;left:0;color:var(--ochre);font-weight:700}
+  .ep-body .sign{margin-top:16px}
+  .ep-body a{color:var(--ochre-deep);font-weight:600}
+
+  footer{text-align:center;padding:30px 0 50px;color:var(--muted);font-size:.82rem}
+  footer .board-mini{display:inline-block;width:60px;height:8px;margin-bottom:14px;
+    background-image:repeating-linear-gradient(90deg,var(--ink) 0 10px,transparent 10px 20px);opacity:.5}
+
+  @media(max-width:560px){
+    .payrow{flex-direction:column;gap:2px}
+    .payrow .v{text-align:left}
+  }
+</style>
+</head>
+<body>
+
+<div class="board-strip"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>PAWN × Commons · 4 Weekends Sprint</span>
+    <h1>Apply to <em>move.</em></h1>
+    <p class="lead">In Casablanca, the bottleneck isn't ambition; it's a place to actually do the work. Cafés close, home distracts, offices shut at 6. This summer, for four weekends, that problem is solved.</p>
+    <ul class="offer-stack">
+      <li><b>Open 24 hours, not 9-to-6.</b> Work the late nights and early mornings, whenever you focus best. The space never closes on you.</li>
+      <li><b>8 full days, 4 weekends.</b> A real block of time to ship something, at Commons Zerktouni in central Casablanca (Mers Sultan).</li>
+      <li><b>One flat price: 360 MAD.</b> No membership, no contract, no per-day math.</li>
+    </ul>
+    <p class="offer-anchor">A day pass in Casablanca runs <b>100 to 250 MAD</b>, and only for business hours. This is <b>8 days, around the clock, for 360 MAD</b>. Roughly 45 dirhams a day.</p>
+    <span class="access">8 days · 24-hour access · Casablanca · <b>360 MAD</b></span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="panel">
+
+      <!-- ===== FORM ===== -->
+      <form id="regForm" novalidate>
+        <!-- Honeypot spam filter (must stay empty) -->
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <h2 class="form-title">Sprint Registration &amp; Onboarding</h2>
+        <p class="intro">Complete the form below and upload your three documents: proof of payment, your ID, and a face photo for access. Your place is confirmed as soon as we receive your payment and documents. Spots are limited by the size of the space and confirmed in the order registrations arrive, so apply early.</p>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 1 -->
+        <section class="section">
+          <div class="section-head">
+            <span class="section-num">1</span>
+            <div class="section-title"><small>Section One</small>Personal Information</div>
+          </div>
+
+          <div class="field" data-required>
+            <label class="flabel" for="fullName">Full Name<span class="req">*</span></label>
+            <input type="text" id="fullName" name="fullName" placeholder="e.g. Amina El Fassi" autocomplete="name">
+          </div>
+
+          <div class="field" data-required>
+            <label class="flabel" for="email">Email Address<span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+          </div>
+
+          <div class="field" data-required>
+            <label class="flabel" for="phone">Mobile Number<span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+212 6 00 00 00 00" autocomplete="tel">
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 2 -->
+        <section class="section">
+          <div class="section-head">
+            <span class="section-num">2</span>
+            <div class="section-title"><small>Section Two</small>Project Information</div>
+          </div>
+
+          <div class="field">
+            <label class="flabel" for="projectName">Project / Startup Name<span class="opt">(optional)</span></label>
+            <input type="text" id="projectName" name="projectName" placeholder="Your project or startup name">
+          </div>
+
+          <div class="field" data-required>
+            <label class="flabel" for="projectDesc">Tell us about the project you are currently working on<span class="req">*</span></label>
+            <p class="help">Please provide a brief overview of your project, business idea, startup, research, or professional activity. Include the objectives, target audience, current stage of development, and any relevant information that helps us understand your work.</p>
+            <textarea id="projectDesc" name="projectDesc" placeholder="Describe your project, objectives, target audience, and current stage…"></textarea>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 3 -->
+        <section class="section">
+          <div class="section-head">
+            <span class="section-num">3</span>
+            <div class="section-title"><small>Section Three</small>Payment Instructions</div>
+          </div>
+
+          <div class="payment">
+            <div class="fee-row">
+              <div class="fee-label"><b>Commons Zerktouni Access Fee</b>4 weekends (8 days) · 24-hour access</div>
+              <div class="fee-amt">360<span> MAD</span></div>
+            </div>
+            <div class="ptag">Bank Transfer Details</div>
+            <div class="paygrid">
+              <div class="payrow"><span class="k">Bank Name</span><span class="v">BMCE Bank</span></div>
+              <div class="payrow"><span class="k">Bank Address</span><span class="v">140 Avenue Hassan II, Casablanca, Agence Rabat Hassane</span></div>
+              <div class="payrow"><span class="k">Account Name</span><span class="v">COMMONS MOROCCO</span></div>
+              <div class="payrow"><span class="k">Account Number</span><span class="v mono">011810000009210000906831</span></div>
+              <div class="payrow"><span class="k">SWIFT Code</span><span class="v mono">BMCEMAMC</span></div>
+              <div class="payrow"><span class="k">Currency</span><span class="v">MAD (Moroccan Dirham)</span></div>
+            </div>
+            <div class="pay-note">Please complete the bank transfer <strong>before</strong> submitting this form and upload the payment receipt in the Document Uploads section below.</div>
+            <div class="pay-note">Prefer to pay in person? You can pay directly at Commons. Reach out to Hiba at the reception during business hours, or email <a href="mailto:hiba@commons.work" style="color:var(--ochre);font-weight:700">hiba@commons.work</a>.</div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 4 -->
+        <section class="section">
+          <div class="section-head">
+            <span class="section-num">4</span>
+            <div class="section-title"><small>Section Four</small>Document Uploads</div>
+          </div>
+
+          <div class="field" data-required>
+            <label class="flabel" for="proofPayment">Proof of Payment<span class="req">*</span></label>
+            <p class="help">Please upload a copy of the bank transfer receipt or payment confirmation for the coworking access fee.</p>
+            <div class="drop" data-accept=".pdf,.jpg,.jpeg,.png">
+              <input type="file" id="proofPayment" name="proofPayment" accept=".pdf,.jpg,.jpeg,.png">
+              <div class="prompt">
+                <div class="icon">📎</div>
+                <div class="dtext">Click to upload or drag a file here</div>
+                <div class="formats">Accepted: PDF, JPG, JPEG, PNG</div>
+              </div>
+              <div class="filename"></div>
+            </div>
+          </div>
+
+          <div class="field" data-required>
+            <label class="flabel" for="idDoc">Government-Issued Identification Document<span class="req">*</span></label>
+            <p class="help">Please upload a clear copy of your National ID Card, Passport, or Residence Permit.</p>
+            <div class="drop" data-accept=".pdf,.jpg,.jpeg,.png">
+              <input type="file" id="idDoc" name="idDoc" accept=".pdf,.jpg,.jpeg,.png">
+              <div class="prompt">
+                <div class="icon">🪪</div>
+                <div class="dtext">Click to upload or drag a file here</div>
+                <div class="formats">Accepted: PDF, JPG, JPEG, PNG</div>
+              </div>
+              <div class="filename"></div>
+            </div>
+          </div>
+
+          <div class="field" data-required>
+            <label class="flabel" for="facePhoto">Face Photo for Access Control System<span class="req">*</span></label>
+            <p class="help">Please upload a recent, clear face photograph with good lighting and a neutral background. <strong>This image will be used exclusively to register you in our Face&nbsp;ID access control system</strong> and facilitate secure access to the coworking space.</p>
+            <div class="drop" data-accept=".jpg,.jpeg,.png">
+              <input type="file" id="facePhoto" name="facePhoto" accept=".jpg,.jpeg,.png">
+              <div class="prompt">
+                <div class="icon">📷</div>
+                <div class="dtext">Click to upload or drag a file here</div>
+                <div class="formats">Accepted: JPG, JPEG, PNG</div>
+              </div>
+              <div class="filename"></div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 5 -->
+        <section class="section">
+          <div class="section-head">
+            <span class="section-num">5</span>
+            <div class="section-title"><small>Section Five</small>Consent</div>
+          </div>
+
+          <div class="consent" id="consentBox">
+            <input type="checkbox" id="consent" name="consent">
+            <label for="consent">I confirm that the information provided in this form is accurate and complete. I authorize Commons Morocco to process the submitted information and uploaded documents for registration, onboarding, membership administration, access control management, and communication related to the program.</label>
+          </div>
+        </section>
+
+        <button type="submit" class="submit">Submit Registration →</button>
+        <div class="errnote" id="errNote">Please complete all required fields and confirm your consent before submitting.</div>
+      </form>
+
+      <!-- ===== CONFIRMATION ===== -->
+      <div class="confirm" id="confirmScreen">
+        <div class="check">✓</div>
+        <h2>Registration Received</h2>
+        <p class="msg">Thank you. Your registration and documents have been received successfully. Here is exactly what happens next.</p>
+
+        <ol class="next-steps">
+          <li><b>We verify your submission.</b> Our team confirms your payment and checks your identification document. This usually takes a couple of business days.</li>
+          <li><b>We set up your access.</b> Your photo is registered in the Face ID system so the space recognises you at any hour.</li>
+          <li><b>You receive your access details.</b> We email you confirmation of your place, the dates of the four weekends, the address at Commons Zerktouni (Mers Sultan), and how to get in.</li>
+        </ol>
+
+        <p class="sub-h">A welcome email like the one below is on its way</p>
+
+        <div class="email-preview">
+          <div class="ep-bar">Confirmation email</div>
+          <div class="ep-body">
+            <div class="subj">Welcome to the Program — Registration Received</div>
+            <p>Dear <strong id="epName">Applicant</strong>,</p>
+            <p>Thank you for registering for the PAWN × Commons sprint. We have successfully received:</p>
+            <ul>
+              <li>Your registration details</li>
+              <li>Your project description</li>
+              <li>Your proof of payment</li>
+              <li>Your identification document</li>
+              <li>Your face photo for access registration</li>
+            </ul>
+            <p>Our team will now verify your payment and identification, then register your photo in the Face ID access system. Once that is done, we will email you everything you need to start:</p>
+            <ul>
+              <li>Confirmation of your place in the sprint</li>
+              <li>The dates of the four weekends and the address (Commons Zerktouni, Mers Sultan)</li>
+              <li>Your Face ID access instructions, so you can enter at any hour, day or night</li>
+              <li>The space rules and who to contact while you are there</li>
+            </ul>
+            <p class="sign">We look forward to seeing you in the space.</p>
+            <p class="sign">Best regards,<br><strong>Commons Morocco</strong><br><a href="mailto:info@commons.ma">info@commons.ma</a></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="board-mini"></div>
+  <div>PAWN × Commons Morocco · Casablanca</div>
+</footer>
+
+<script>
+(function(){
+  /* ===========================================================
+     BACKEND ENDPOINT
+     The form is served by the same Worker that handles submissions,
+     so this is a same-origin relative path (no CORS needed).
+     =========================================================== */
+  const ENDPOINT = '/submit';
+
+  const form = document.getElementById('regForm');
+  const errNote = document.getElementById('errNote');
+  const confirmScreen = document.getElementById('confirmScreen');
+  const consentBox = document.getElementById('consentBox');
+  const submitBtn = form.querySelector('.submit');
+  const DEFAULT_ERR = 'Please complete all required fields and confirm your consent before submitting.';
+
+  // --- file upload: show filename, validate format, mark state ---
+  document.querySelectorAll('.drop').forEach(function(drop){
+    const input = drop.querySelector('input[type=file]');
+    const nameEl = drop.querySelector('.filename');
+    const accepted = (drop.dataset.accept || '').split(',').map(s=>s.trim().toLowerCase());
+
+    function handle(){
+      const f = input.files[0];
+      if(!f){ drop.classList.remove('has-file'); nameEl.textContent=''; return; }
+      const ext = '.' + f.name.split('.').pop().toLowerCase();
+      if(accepted.indexOf(ext) === -1){
+        drop.classList.remove('has-file');
+        nameEl.textContent='';
+        input.value='';
+        alert('Unsupported file type. Accepted formats: ' + accepted.join(', '));
+        return;
+      }
+      drop.classList.add('has-file');
+      nameEl.textContent = '✓ ' + f.name;
+    }
+    input.addEventListener('change', handle);
+    // drag visual feedback
+    drop.addEventListener('dragover', e=>{e.preventDefault(); drop.style.borderColor='var(--ochre)';});
+    drop.addEventListener('dragleave', ()=>{ if(!drop.classList.contains('has-file')) drop.style.borderColor=''; });
+    drop.addEventListener('drop', ()=>{ drop.style.borderColor=''; });
+  });
+
+  // --- consent visual state ---
+  const consent = document.getElementById('consent');
+  consent.addEventListener('change', ()=> consentBox.classList.toggle('checked', consent.checked));
+
+  // --- validation + submit ---
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    let firstBad = null;
+
+    // clear prior error states
+    document.querySelectorAll('.field-error').forEach(el=>el.classList.remove('field-error'));
+
+    document.querySelectorAll('.field[data-required]').forEach(function(field){
+      const input = field.querySelector('input, textarea');
+      let ok = true;
+      if(input.type === 'file'){ ok = input.files.length > 0; }
+      else if(input.type === 'email'){ ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim()); }
+      else { ok = input.value.trim().length > 0; }
+      if(!ok){ field.classList.add('field-error'); if(!firstBad) firstBad = field; }
+    });
+
+    if(!consent.checked){
+      consentBox.style.borderColor = 'var(--ochre-deep)';
+      if(!firstBad) firstBad = consentBox;
+    } else {
+      consentBox.style.borderColor = '';
+    }
+
+    if(firstBad){
+      errNote.textContent = DEFAULT_ERR;
+      errNote.classList.add('show');
+      firstBad.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+
+    errNote.classList.remove('show');
+
+    /* -----------------------------------------------------------
+       Submit to the Cloudflare Worker (see ENDPOINT above).
+       The Worker stores the three uploads + a JSON record in R2,
+       emails a notification (documents attached) to the team, and
+       sends the applicant the welcome email previewed below.
+       ----------------------------------------------------------- */
+    const origLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    try{
+      const data = new FormData(form);
+      const res = await fetch(ENDPOINT, { method:'POST', body:data });
+      const json = await res.json().catch(()=>({success:false,message:'Unexpected server response.'}));
+      if(!res.ok || !json.success){ throw new Error(json.message || ('Submission failed (HTTP '+res.status+').')); }
+
+      // Show confirmation + personalize email preview
+      const name = document.getElementById('fullName').value.trim() || 'Applicant';
+      document.getElementById('epName').textContent = name;
+      form.style.display = 'none';
+      confirmScreen.classList.add('show');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }catch(err){
+      submitBtn.disabled = false;
+      submitBtn.textContent = origLabel;
+      errNote.textContent = 'We could not submit your registration (' + err.message + '). Please check your connection and try again, or email hiba@commons.work.';
+      errNote.classList.add('show');
+      errNote.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  });
+})();
+</script>
+</body>
+</html>
